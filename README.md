@@ -1,10 +1,10 @@
 # Indexa
 
-O frontend foi feito em Angular 17. O backend agora é uma API própria em Express, com rotas escritas em backend/server.js e dados salvos em backend/db.json.
+O frontend foi feito em Angular 17.
 
 ## Executar no VS Code
 
-Abra C:\Users\rafae\OneDrive\Documentos\Indexa e rode npm start no terminal.
+Abra a pasta no VSCode e rode npm start no terminal.
 
 - Aplicação: http://localhost:4200
 - API: http://localhost:3000/contatos
