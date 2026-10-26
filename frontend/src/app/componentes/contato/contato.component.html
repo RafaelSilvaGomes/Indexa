@@ -1,9 +1,38 @@
-<div class="linha-contato">
-  <a class="nome-contato" [routerLink]="['/contatos', contato.id]">
-    <img class="mini-avatar" [src]="contato.imagem || 'assets/adicionar-contato.png'" alt="">
-    <span>{{ contato.nome }}</span>
-  </a>
-  <span class="telefone">{{ contato.telefone }}</span>
-  <a class="acao-icone" [routerLink]="['/contatos', contato.id, 'editar']" [attr.aria-label]="'Editar ' + contato.nome"><img src="assets/pencil-square.png" alt=""></a>
-  <button class="acao-icone" type="button" (click)="excluir.emit(contato)" [attr.aria-label]="'Excluir ' + contato.nome"><img src="assets/trash.png" alt=""></button>
-</div>
+<section class="contato">
+  <ul>
+    <li class="foto-contato">
+      <a
+        [routerLink]="['/perfil-contato', contato.id]"
+        [attr.aria-label]="'Ver ' + contato.nome"
+      >
+        <img
+          class="avatar"
+          [src]="contato.imagem || 'assets/adicionar-contato.png'"
+          alt="Avatar do contato"
+        />
+      </a>
+    </li>
+    <li>
+      <a [routerLink]="['/perfil-contato', contato.id]"
+        ><strong>{{ contato.nome }}</strong></a
+      >
+    </li>
+    <li>{{ contato.telefone }}</li>
+    <li>
+      <button
+        type="button"
+        [routerLink]="['/formulario', contato.id]"
+        [attr.aria-label]="'Editar ' + contato.nome"
+      >
+        <img src="assets/pencil-square.png" alt="alteração" />
+      </button>
+      <button
+        type="button"
+        [routerLink]="['/perfil-contato', contato.id]"
+        [attr.aria-label]="'Ver e excluir ' + contato.nome"
+      >
+        <img src="assets/trash.png" alt="exclusão" />
+      </button>
+    </li>
+  </ul>
+</section>

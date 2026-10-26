@@ -1,16 +1,41 @@
 <app-container>
-  <app-cabecalho></app-cabecalho>
-  <section class="conteudo-lista">
-    <input class="busca" type="search" placeholder="Digite para buscar" aria-label="Buscar contato" [(ngModel)]="filtroPorTexto">
-    <a class="botao-novo" routerLink="/formulario"><img src="assets/plus.png" alt=""> Criar novo contato</a>
-    <p class="mensagem" *ngIf="carregando">Carregando contatos...</p>
-    <p class="mensagem erro" *ngIf="erro">{{ erro }} <button type="button" (click)="carregar()">Tentar novamente</button></p>
-    <p class="mensagem" *ngIf="!carregando && !erro && totalFiltrado === 0">Nenhum contato encontrado.</p>
-    <ng-container *ngFor="let letra of alfabeto">
-      <section class="grupo" *ngIf="porLetra(letra).length">
-        <app-separador [letra]="letra"></app-separador>
-        <app-contato *ngFor="let contato of porLetra(letra)" [contato]="contato" (excluir)="excluir($event)"></app-contato>
-      </section>
-    </ng-container>
+  <app-cabecalho
+    [telaInicial]="true"
+    bannerSrc="assets/banner.png"
+    titulo="Organize, conecte, simplifique!"
+  ></app-cabecalho>
+
+  <input
+    type="search"
+    placeholder="Digite para buscar"
+    aria-label="Buscar contato"
+    [(ngModel)]="filtroPorTexto"
+  />
+
+  <section class="adicionar-contato">
+    <button type="button" routerLink="/formulario">
+      <img src="assets/plus.png" alt="" />
+      <span>Adicionar contato</span>
+    </button>
   </section>
+
+  @if (carregando) {
+    <p class="mensagem">Carregando contatos...</p>
+  }
+  @if (erro) {
+    <p class="mensagem erro">
+      {{ erro }}
+      <button type="button" (click)="carregar()">Tentar novamente</button>
+    </p>
+  }
+  @if (!carregando && !erro && filtrarContatosPorTexto().length === 0) {
+    <p class="mensagem">Nenhum contato encontrado.</p>
+  }
+
+  @for (letra of alfabeto; track letra) {
+    <app-separador>{{ letra }}</app-separador>
+    @for (contato of filtrarContatosPorLetraInicial(letra); track contato.id) {
+      <app-contato [contato]="contato"></app-contato>
+    }
+  }
 </app-container>

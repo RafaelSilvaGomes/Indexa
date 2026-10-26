@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ContainerComponent } from '../../componentes/container/container.component';
@@ -10,46 +9,67 @@ import { Contato } from '../../componentes/contato/contato';
 import { ContatoService } from '../../services/contato.service';
 
 @Component({
-  selector: 'app-lista-contatos', standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, ContainerComponent, CabecalhoComponent, SeparadorComponent, ContatoComponent],
+  selector: 'app-lista-contatos',
+  standalone: true,
+  imports: [
+    SeparadorComponent,
+    ContainerComponent,
+    CabecalhoComponent,
+    FormsModule,
+    ContatoComponent,
+    RouterLink,
+  ],
   templateUrl: './lista-contatos.component.html',
-  styleUrl: './lista-contatos.component.css'
+  styleUrl: './lista-contatos.component.css',
 })
 export class ListaContatosComponent implements OnInit {
   contatos: Contato[] = [];
   filtroPorTexto = '';
   erro = '';
   carregando = true;
-  readonly alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
-  constructor(private contatosService: ContatoService) {}
+  constructor(private contatoService: ContatoService) {}
 
-  ngOnInit(): void { this.carregar(); }
+  ngOnInit(): void {
+    this.carregar();
+  }
+
   carregar(): void {
-    this.contatosService.obterContatos().subscribe({
-      next: contatos => { this.contatos = contatos; this.carregando = false; this.erro = ''; },
-      error: () => { this.erro = 'Não foi possível carregar os contatos. Verifique se o backend está ligado.'; this.carregando = false; }
+    this.contatoService.obterContatos().subscribe({
+      next: (listaContatos) => {
+        this.contatos = listaContatos;
+        this.carregando = false;
+        this.erro = '';
+      },
+      error: () => {
+        this.erro =
+          'Não foi possível carregar os contatos. Verifique se o backend está ligado.';
+        this.carregando = false;
+      },
     });
   }
-  normalizar(texto: string): string {
-    return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase();
+
+  filtrarContatosPorLetraInicial(letra: string): Contato[] {
+    return this.filtrarContatosPorTexto().filter((contato) =>
+      this.removerAcentos(contato.nome)
+        .toLowerCase()
+        .startsWith(this.removerAcentos(letra).toLowerCase()),
+    );
   }
-  porLetra(letra: string): Contato[] {
-    const filtro = this.normalizar(this.filtroPorTexto.trim());
-    return this.contatos
-      .filter(contato => this.normalizar(contato.nome).startsWith(letra))
-      .filter(contato => !filtro || this.normalizar(contato.nome).includes(filtro) || contato.telefone.includes(filtro))
-      .sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+
+  filtrarContatosPorTexto(): Contato[] {
+    if (!this.filtroPorTexto) {
+      return this.contatos;
+    }
+    return this.contatos.filter((contato) =>
+      this.removerAcentos(contato.nome)
+        .toLowerCase()
+        .includes(this.removerAcentos(this.filtroPorTexto).toLowerCase()),
+    );
   }
-  get totalFiltrado(): number {
-    const filtro = this.normalizar(this.filtroPorTexto.trim());
-    return this.contatos.filter(contato => !filtro || this.normalizar(contato.nome).includes(filtro) || contato.telefone.includes(filtro)).length;
-  }
-  excluir(contato: Contato): void {
-    if (!confirm(`Excluir ${contato.nome} da agenda?`)) return;
-    this.contatosService.excluir(contato.id).subscribe({
-      next: () => this.contatos = this.contatos.filter(item => item.id !== contato.id),
-      error: () => this.erro = 'Não foi possível excluir o contato.'
-    });
+
+  private removerAcentos(texto: string): string {
+    return texto.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 }

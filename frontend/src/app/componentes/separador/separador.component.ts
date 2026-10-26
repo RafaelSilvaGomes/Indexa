@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
+
 @Component({
-  selector: 'app-separador', standalone: true,
-  templateUrl: './separador.component.html', styleUrl: './separador.component.css'
+  selector: 'app-separador',
+  standalone: true,
+  templateUrl: './separador.component.html',
+  styleUrl: './separador.component.css',
 })
-export class SeparadorComponent {
-  @Input({ required: true }) letra = '';
-}
+export class SeparadorComponent {}

@@ -1,37 +1,36 @@
 :host {
   display: block;
 }
-.conteudo-lista {
-  padding-top: 32px;
-}
-.busca {
+
+input[type="search"] {
   width: 100%;
-  height: 42px;
-  padding: 7px 12px;
+  margin-top: 40px;
+  padding: 6px 12px;
   border: 1px solid #ced4da;
   border-radius: 4px;
-  background: transparent;
-  font-size: 16px;
+  font-size: 18px;
 }
-.botao-novo {
+
+.adicionar-contato {
+  display: flex;
+  justify-content: center;
+  margin: 32px 0 40px;
+}
+
+.adicionar-contato button {
   display: flex;
   align-items: center;
-  gap: 5px;
-  width: fit-content;
-  margin: 32px auto 46px;
-  padding: 7px 12px;
+  gap: 8px;
+  padding: 6px 12px;
   border: 1px solid #0d6efd;
   border-radius: 4px;
+  background: white;
   color: #0d6efd;
-  font-size: 17px;
   font-weight: 700;
-  text-decoration: none;
+  cursor: pointer;
 }
-.botao-novo img {
+
+.adicionar-contato img {
   width: 18px;
   height: 18px;
-  object-fit: contain;
-}
-.grupo {
-  margin-top: 18px;
 }

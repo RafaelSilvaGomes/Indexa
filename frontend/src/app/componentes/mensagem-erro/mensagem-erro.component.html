@@ -1,0 +1,11 @@
+@if (control.errors && control.touched) {
+  @if (control.errors["required"]) {
+    <div class="mensagem-erro">Campo obrigatório</div>
+  }
+  @if (control.errors["email"]) {
+    <div class="mensagem-erro">Formato de e-mail inválido</div>
+  }
+  @if (control.errors["minlength"] || control.errors["maxlength"]) {
+    <div class="mensagem-erro">O nome deve ter de 4 a 30 caracteres.</div>
+  }
+}

@@ -1,5 +1,18 @@
-<header class="cabecalho-principal">
-  <a class="marca" routerLink="/lista-contatos" aria-label="Indexa, página inicial">ind<span>e</span>xa</a>
-  <img class="banner" src="assets/banner.png" alt="Agenda digital de contatos">
-  <h1 class="slogan">Organize, <em>conecte,</em><br>simplifique!</h1>
+<header class="cabecalho" [class.interna]="!telaInicial">
+  <img class="logo" src="assets/logo.png" alt="FEMA" />
+
+  @if (!telaInicial) {
+    <a class="link" [routerLink]="voltar"
+      ><img class="seta" src="assets/arrow-left.png" alt="" />Voltar</a
+    >
+  }
+
+  <img class="banner" [src]="bannerSrc" alt="" />
+  <h1 class="titulo">
+    @if (telaInicial) {
+      Organize, <span>conecte,</span> simplifique
+    } @else {
+      {{ titulo }}
+    }
+  </h1>
 </header>

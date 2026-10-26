@@ -7,8 +7,10 @@ export const routes: Routes = [
   { path: '', redirectTo: 'lista-contatos', pathMatch: 'full' },
   { path: 'lista-contatos', component: ListaContatosComponent },
   { path: 'formulario', component: FormularioContatoComponent },
+  { path: 'formulario/:id', component: FormularioContatoComponent },
+  { path: 'perfil-contato/:id', component: PerfilContatoComponent },
   { path: 'contatos/:id', component: PerfilContatoComponent },
   { path: 'contatos/:id/editar', component: FormularioContatoComponent },
   { path: 'novo', redirectTo: 'formulario' },
-  { path: '**', redirectTo: 'lista-contatos' }
+  { path: '**', redirectTo: 'lista-contatos' },
 ];
