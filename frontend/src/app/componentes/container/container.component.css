@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+.pagina {
+  width: 684px;
+  max-width: 90%;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 30px 62px 64px;
+  background: #ffffff;
+  border-left: 7px solid #5487ff;
+  border-right: 7px solid #5487ff;
+  border-radius: 18px 18px 0 0;
+}
+@media (max-width: 650px) {
+  .pagina {
+    max-width: 100%;
+    padding: 24px 20px 48px;
+    border-width: 5px;
+  }
+}

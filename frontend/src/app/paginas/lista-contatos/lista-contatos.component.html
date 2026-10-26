@@ -1,0 +1,16 @@
+<app-container>
+  <app-cabecalho></app-cabecalho>
+  <section class="conteudo-lista">
+    <input class="busca" type="search" placeholder="Digite para buscar" aria-label="Buscar contato" [(ngModel)]="filtroPorTexto">
+    <a class="botao-novo" routerLink="/formulario"><img src="assets/plus.png" alt=""> Criar novo contato</a>
+    <p class="mensagem" *ngIf="carregando">Carregando contatos...</p>
+    <p class="mensagem erro" *ngIf="erro">{{ erro }} <button type="button" (click)="carregar()">Tentar novamente</button></p>
+    <p class="mensagem" *ngIf="!carregando && !erro && totalFiltrado === 0">Nenhum contato encontrado.</p>
+    <ng-container *ngFor="let letra of alfabeto">
+      <section class="grupo" *ngIf="porLetra(letra).length">
+        <app-separador [letra]="letra"></app-separador>
+        <app-contato *ngFor="let contato of porLetra(letra)" [contato]="contato" (excluir)="excluir($event)"></app-contato>
+      </section>
+    </ng-container>
+  </section>
+</app-container>

@@ -1,0 +1,9 @@
+<div class="linha-contato">
+  <a class="nome-contato" [routerLink]="['/contatos', contato.id]">
+    <img class="mini-avatar" [src]="contato.imagem || 'assets/adicionar-contato.png'" alt="">
+    <span>{{ contato.nome }}</span>
+  </a>
+  <span class="telefone">{{ contato.telefone }}</span>
+  <a class="acao-icone" [routerLink]="['/contatos', contato.id, 'editar']" [attr.aria-label]="'Editar ' + contato.nome"><img src="assets/pencil-square.png" alt=""></a>
+  <button class="acao-icone" type="button" (click)="excluir.emit(contato)" [attr.aria-label]="'Excluir ' + contato.nome"><img src="assets/trash.png" alt=""></button>
+</div>

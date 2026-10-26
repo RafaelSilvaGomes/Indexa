@@ -1,0 +1,10 @@
+{
+  "name": "indexa",
+  "private": true,
+  "scripts": {
+    "start": "node start.js",
+    "frontend": "npm --prefix frontend start",
+    "backend": "node backend/server.js",
+    "build": "npm --prefix frontend run build"
+  }
+}

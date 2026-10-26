@@ -1,0 +1,41 @@
+<app-container><main class="pagina-interna">
+  <header class="cabecalho-interno">
+    <a class="marca" routerLink="/lista-contatos" aria-label="Indexa, página inicial">ind<span>e</span>xa</a>
+    <a class="voltar" [routerLink]="voltar"><img src="assets/arrow-left.png" alt=""> Voltar</a>
+    <img class="ilustracao-titulo" src="assets/adicionar-contato.png" alt="">
+    <h1>{{ titulo }}</h1>
+  </header>
+
+  <form [formGroup]="formulario" (ngSubmit)="salvar()" novalidate>
+    <label class="upload" for="imagem">
+      <img *ngIf="imagem" [src]="imagem" alt="Foto do contato">
+      <span *ngIf="!imagem">＋<small>Adicione a imagem do contato</small></span>
+    </label>
+    <input class="arquivo" id="imagem" type="file" accept="image/*" (change)="selecionarImagem($event)">
+
+    <label for="nome">Nome</label>
+    <input id="nome" type="text" formControlName="nome" placeholder="Digite o nome do contato">
+    <small class="erro-campo" *ngIf="formulario.controls.nome.touched && formulario.controls.nome.invalid">Informe um nome com 4 a 30 caracteres.</small>
+
+    <label for="telefone">Número</label>
+    <input id="telefone" type="tel" formControlName="telefone" placeholder="Digite o número do telefone">
+    <small class="erro-campo" *ngIf="formulario.controls.telefone.touched && formulario.controls.telefone.invalid">Informe o telefone.</small>
+
+    <label for="email">E-mail</label>
+    <input id="email" type="email" formControlName="email" placeholder="Insira o endereço de e-mail do contato">
+    <small class="erro-campo" *ngIf="formulario.controls.email.touched && formulario.controls.email.invalid">Informe um e-mail válido.</small>
+
+    <hr>
+    <label for="aniversario">Aniversário</label>
+    <input id="aniversario" type="date" formControlName="aniversario">
+
+    <label for="redes">Redes sociais</label>
+    <div class="input-container"><span class="span-http">https://</span><input id="redes" type="text" formControlName="redes" placeholder="Adicione a URL da página"></div>
+
+    <label for="observacoes">Observações</label>
+    <textarea id="observacoes" formControlName="observacoes" placeholder="Escreva observações nesse espaço, exemplo: ‘Instrutora da academia’, ‘Nova imagem’, ‘amiga da Júlia’. "></textarea>
+
+    <p class="erro" *ngIf="erro">{{ erro }}</p>
+    <div class="botoes"><a class="botao-cancelar" [routerLink]="voltar">Cancelar</a><button class="botao-salvar" type="submit" [disabled]="formulario.invalid || salvando">{{ salvando ? 'Salvando...' : 'Salvar contato' }}</button></div>
+  </form>
+</main></app-container>

@@ -1,0 +1,48 @@
+:host {
+  display: block;
+}
+.marca {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  color: #0d6efd;
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -3px;
+  line-height: 1;
+  text-decoration: none;
+}
+.marca span {
+  color: #ff8b32;
+  letter-spacing: -5px;
+}
+.cabecalho-principal {
+  text-align: center;
+  border-bottom: 1px solid #8db9ff;
+  padding-bottom: 28px;
+}
+.banner {
+  display: block;
+  width: 270px;
+  max-width: 80%;
+  margin: 22px auto 4px;
+}
+.slogan {
+  color: #0d6efd;
+  font-size: 27px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+}
+.slogan em {
+  color: #ff8b32;
+  font-style: normal;
+}
+@media (max-width: 650px) {
+  .marca {
+    font-size: 36px;
+  }
+  .slogan {
+    font-size: 22px;
+  }
+}

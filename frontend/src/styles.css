@@ -1,0 +1,106 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #ffffff;
+  color: #222;
+  font-family: Montserrat, Arial, sans-serif;
+}
+button,
+input,
+textarea {
+  font: inherit;
+}
+a {
+  color: inherit;
+}
+.mensagem {
+  color: #6c757d;
+  text-align: center;
+}
+.erro,
+.erro-campo {
+  color: #bd2b36;
+}
+.mensagem button {
+  margin-left: 8px;
+  border: 0;
+  background: transparent;
+  color: #0d6efd;
+  cursor: pointer;
+}
+.cabecalho-interno {
+  border-bottom: 1px solid #8db9ff;
+  text-align: center;
+}
+.voltar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 24px;
+  color: #0d6efd;
+  font-size: 18px;
+  text-decoration: none;
+}
+.voltar img {
+  width: 18px;
+}
+.ilustracao-titulo {
+  display: block;
+  width: 108px;
+  height: 108px;
+  object-fit: contain;
+  margin: 12px auto 0;
+}
+.perfil-ilustracao {
+  width: 114px;
+}
+.cabecalho-interno h1 {
+  margin: 12px 0 18px;
+  color: #0d6efd;
+  font-size: 26px;
+  line-height: 39px;
+}
+.botoes {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-top: 22px;
+}
+.botao-cancelar,
+.botao-salvar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 196px;
+  min-height: 41px;
+  padding: 6px 12px;
+  border: 1px solid #0d6efd;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.botao-cancelar {
+  background: white;
+  color: #0d6efd;
+}
+.botao-salvar {
+  background: #0d6efd;
+  color: white;
+}
+.botao-salvar:disabled {
+  border-color: #adb5bd;
+  background: #adb5bd;
+  cursor: not-allowed;
+}
+@media (max-width: 650px) {
+  .botao-cancelar,
+  .botao-salvar {
+    width: 48%;
+    font-size: 15px;
+  }
+}

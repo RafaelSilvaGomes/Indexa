@@ -1,0 +1,21 @@
+<app-container><main class="pagina-interna">
+  <header class="cabecalho-interno">
+    <a class="marca" routerLink="/lista-contatos" aria-label="Indexa, página inicial">ind<span>e</span>xa</a>
+    <a class="voltar" routerLink="/lista-contatos"><img src="assets/arrow-left.png" alt=""> Voltar</a>
+    <img class="ilustracao-titulo perfil-ilustracao" src="assets/perfil-contato.png" alt="">
+    <h1>Perfil do contato</h1>
+  </header>
+
+  <p class="mensagem erro" *ngIf="erro">{{ erro }}</p>
+  <article class="cartao-perfil" *ngIf="contato as pessoa">
+    <div class="perfil-topo"><img [src]="pessoa.imagem || 'assets/adicionar-contato.png'" alt="Foto do contato"><strong>{{ pessoa.nome }}</strong></div>
+    <div class="dados-perfil">
+      <div><b>♧ Número</b><span>{{ pessoa.telefone }}</span></div>
+      <div><b>✉ E-mail</b><span>{{ pessoa.email }}</span></div>
+      <div *ngIf="pessoa.aniversario"><b>▣ Data de nascimento</b><span>{{ data(pessoa.aniversario) }}</span></div>
+      <div *ngIf="pessoa.redes"><b>◉ Redes sociais</b><span>{{ pessoa.redes }}</span></div>
+      <div *ngIf="pessoa.observacoes"><b>Observações</b><span>{{ pessoa.observacoes }}</span></div>
+    </div>
+    <div class="botoes"><button class="botao-cancelar" type="button" (click)="excluir()">Excluir contato</button><a class="botao-salvar" [routerLink]="['/contatos', pessoa.id, 'editar']">Editar</a></div>
+  </article>
+</main></app-container>
