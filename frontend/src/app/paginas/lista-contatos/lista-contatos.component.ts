@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ContainerComponent } from '../../componentes/container/container.component';
@@ -22,7 +22,7 @@ import { ContatoService } from '../../services/contato.service';
   templateUrl: './lista-contatos.component.html',
   styleUrl: './lista-contatos.component.css',
 })
-export class ListaContatosComponent implements OnInit {
+export class ListaContatosComponent implements OnInit, OnDestroy {
   contatos: Contato[] = [];
   filtroPorTexto = '';
   erro = '';
@@ -31,10 +31,24 @@ export class ListaContatosComponent implements OnInit {
 
   constructor(private contatoService: ContatoService) {}
 
+  private temporizador?: number;
+
   ngOnInit(): void {
     this.carregar();
+    // Atualiza a lista periodicamente para refletir alterações feitas em outro aparelho.
+    this.temporizador = window.setInterval(() => this.sincronizar(), 3000);
   }
 
+  ngOnDestroy(): void {
+    if (this.temporizador) window.clearInterval(this.temporizador);
+  }
+
+  private sincronizar(): void {
+    this.contatoService.obterContatos().subscribe({
+      next: contatos => { this.contatos = contatos; this.erro = ''; },
+      error: () => this.erro = 'Sem conexão com o servidor. As alterações serão sincronizadas quando a conexão voltar.'
+    });
+  }
   carregar(): void {
     this.contatoService.obterContatos().subscribe({
       next: (listaContatos) => {

@@ -16,7 +16,8 @@ const angularCli = path.join(
   "bin",
   "ng.js",
 );
-const site = spawn(process.execPath, [angularCli, "serve"], {
+const site = spawn(process.execPath, [angularCli, "serve", "--host", "0.0.0.0"], {
+  // Permite abrir a aplicação em celulares e outros computadores da mesma rede.
   cwd: frontend,
   stdio: "inherit",
 });

@@ -1,6 +1,6 @@
 import { ContainerComponent } from '../../componentes/container/container.component';
 import { CabecalhoComponent } from '../../componentes/cabecalho/cabecalho.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Contato } from '../../componentes/contato/contato';
@@ -13,7 +13,7 @@ import { ContatoService } from '../../services/contato.service';
   templateUrl: './perfil-contato.component.html',
   styleUrl: './perfil-contato.component.css',
 })
-export class PerfilContatoComponent implements OnInit {
+export class PerfilContatoComponent implements OnInit, OnDestroy {
   contato?: Contato;
   erro = '';
   constructor(
@@ -21,6 +21,7 @@ export class PerfilContatoComponent implements OnInit {
     private router: Router,
     private contatosService: ContatoService,
   ) {}
+  private temporizador?: number;
 
   ngOnInit(): void {
     const id = Number(this.rota.snapshot.paramMap.get('id'));
@@ -28,6 +29,16 @@ export class PerfilContatoComponent implements OnInit {
       next: (contato) => (this.contato = contato),
       error: () => (this.erro = 'Contato não encontrado.'),
     });
+    this.temporizador = window.setInterval(() => {
+      this.contatosService.buscarPorId(id).subscribe({
+        next: contato => { this.contato = contato; this.erro = ''; },
+        error: () => { this.contato = undefined; this.erro = 'Este contato foi removido em outro aparelho.'; }
+      });
+    }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.temporizador) window.clearInterval(this.temporizador);
   }
 
   data(iso: string): string {

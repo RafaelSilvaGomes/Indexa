@@ -7,7 +7,8 @@ type ContatoParaSalvar = DadosContato & { id?: number };
 
 @Injectable({ providedIn: 'root' })
 export class ContatoService {
-  private readonly API = 'http://localhost:3000/contatos';
+  // Em cada aparelho, usa o IP/host pelo qual o frontend foi aberto.
+  private readonly API = `http://${window.location.hostname || 'localhost'}:3000/contatos`;
 
   constructor(private http: HttpClient) {}
 

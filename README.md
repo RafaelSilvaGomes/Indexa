@@ -1,43 +1,58 @@
 # Indexa
 
-O frontend foi feito em Angular 17. O backend é uma API simples em Express, com rotas em backend/server.js e dados em backend/db.json.
+Agenda de contatos com frontend Angular 17 e API REST em Node.js/Express. Os dados ficam em um banco SQLite local.
 
-## Executar no VS Code
+## Requisitos
 
-Abra a pasta no VSCode e rode npm start no terminal.
+- Node.js 22.13 ou superior (o backend usa o módulo SQLite incluído no Node.js).
+- Para acessar pelo celular, computador e celular precisam estar na mesma rede Wi-Fi.
 
-- Aplicação: http://localhost:4200
-- API: http://localhost:3000/contatos
+## Instalação e inicialização
 
-Deixe o terminal aberto. Para parar, pressione Ctrl+C.
+Instale as dependências uma vez:
 
-Em outro computador, instale as dependências uma vez em cada pasta:
-
+```text
+npm install
 cd frontend
 npm install
-cd ..\backend
+cd ..
+cd backend
 npm install
 cd ..
+```
+
+Inicie os serviços no computador:
+
+```text
 npm start
+```
 
-## Como o backend funciona
+O terminal mostrará o endereço local da aplicação. No celular, abra o endereço de rede exibido pelo Angular, usando a porta `4200` (por exemplo, `http://192.168.0.10:4200`). Mantenha o computador e o terminal ligados enquanto estiver usando o sistema. Se o Windows perguntar, permita o Node.js na rede privada.
 
-O arquivo backend/server.js define as rotas:
+## Sincronização entre aparelhos
 
-- GET /contatos: lista todos os contatos.
-- GET /contatos/:id: busca um contato.
-- POST /contatos: cadastra um contato.
-- PUT /contatos/:id: atualiza um contato.
-- DELETE /contatos/:id: exclui um contato.
+Todos os aparelhos acessam a mesma API executada no computador. A lista e o perfil consultam o servidor a cada 3 segundos; assim, cadastros, edições e exclusões aparecem nos outros aparelhos automaticamente enquanto a página estiver aberta.
 
-As funções lerContatos e salvarContatos usam backend/db.json como armazenamento. A função validarContato confere nome, telefone e e-mail antes de salvar. O frontend chama essas rotas em frontend/src/app/services/contato.service.ts.
+## Backend e banco de dados
 
-Para modificar o backend, edite backend/server.js. Para alterar os dados iniciais, edite backend/db.json. Para testar a compilação do Angular, rode npm run build na pasta principal.
+- `backend/server.js`: API REST Express, validação e operações SQL.
+- `backend/indexa.sqlite`: banco SQLite persistente criado automaticamente na primeira inicialização.
+- `frontend/src/app/services/contato.service.ts`: chamadas HTTP para a API.
+- `start.js`: inicia o backend e o servidor de desenvolvimento Angular, acessíveis pela rede local.
 
-## Demonstração rápida
+Rotas disponíveis:
 
-1. Abra a lista e pesquise agata para encontrar Ágata sem digitar o acento.
-2. Cadastre um contato com nome, telefone e e-mail.
-3. Abra o perfil, edite o nome e recarregue a página.
-4. Mostre que o dado ficou salvo em backend/db.json.
-5. Exclua o contato de teste.
+- `GET /contatos`: lista contatos.
+- `GET /contatos/:id`: consulta um contato.
+- `POST /contatos`: cadastra.
+- `PUT /contatos/:id`: atualiza.
+- `DELETE /contatos/:id`: exclui.
+
+Na primeira inicialização após a atualização, se `backend/db.json` ainda existir, o backend importa os contatos para SQLite e remove o arquivo JSON somente depois de confirmar a importação. Faça cópia de segurança de `backend/indexa.sqlite` para guardar ou transferir os dados. Esse banco fica no computador que está executando o backend.
+
+## Estrutura das funcionalidades
+
+- Cadastro e edição: `frontend/src/app/paginas/formulario-contato/formulario-contato.component.ts`.
+- Lista e exclusão: `frontend/src/app/paginas/lista-contatos/lista-contatos.component.ts`.
+- Perfil e exclusão: `frontend/src/app/paginas/perfil-contato/perfil-contato.component.ts`.
+- Rotas e validação da API: `backend/server.js`.
