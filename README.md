@@ -48,7 +48,7 @@ Rotas disponíveis:
 - `PUT /contatos/:id`: atualiza.
 - `DELETE /contatos/:id`: exclui.
 
-Na primeira inicialização após a atualização, se `backend/db.json` ainda existir, o backend importa os contatos para SQLite e remove o arquivo JSON somente depois de confirmar a importação. Faça cópia de segurança de `backend/indexa.sqlite` para guardar ou transferir os dados. Esse banco fica no computador que está executando o backend.
+Faça cópia de segurança de `backend/indexa.sqlite` para guardar ou transferir os dados. Esse banco fica no computador que está executando o backend e não é enviado ao Git. Instalações antigas que ainda tenham dados em `backend/db.json` precisam migrá-los antes de usar esta versão; o servidor atual não importa mais o JSON automaticamente.
 
 ## Estrutura das funcionalidades
 

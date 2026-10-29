@@ -1,7 +1,6 @@
 // API REST do Indexa com armazenamento persistente em SQLite.
 const express = require("express");
 const cors = require("cors");
-const fs = require("node:fs");
 const os = require("node:os");
 const path = require("node:path");
 const { DatabaseSync } = require("node:sqlite");
@@ -9,7 +8,6 @@ const { DatabaseSync } = require("node:sqlite");
 const app = express();
 const porta = Number(process.env.PORT || 3000);
 const arquivoBanco = path.join(__dirname, "indexa.sqlite");
-const arquivoLegado = path.join(__dirname, "db.json");
 const db = new DatabaseSync(arquivoBanco);
 
 db.exec(`
@@ -25,41 +23,6 @@ db.exec(`
     imagem TEXT NOT NULL DEFAULT ''
   );
 `);
-
-// Migra os dados existentes uma única vez, preservando os IDs, e só remove
-// o arquivo legado depois que a importação para o SQLite foi concluída.
-if (fs.existsSync(arquivoLegado)) {
-  const quantidade = db.prepare("SELECT COUNT(*) AS total FROM contatos").get().total;
-  if (quantidade === 0) {
-    const legado = JSON.parse(fs.readFileSync(arquivoLegado, "utf8"));
-    if (!Array.isArray(legado.contatos)) {
-      throw new Error("backend/db.json não contém uma lista válida de contatos.");
-    }
-
-    const inserir = db.prepare(`
-      INSERT INTO contatos
-        (id, nome, telefone, email, aniversario, redes, observacoes, imagem)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `);
-    db.exec("BEGIN");
-    try {
-      for (const contato of legado.contatos) {
-        inserir.run(
-          Number(contato.id), String(contato.nome || ""),
-          String(contato.telefone || ""), String(contato.email || ""),
-          String(contato.aniversario || ""), String(contato.redes || ""),
-          String(contato.observacoes || ""), String(contato.imagem || ""),
-        );
-      }
-      db.exec("COMMIT");
-    } catch (erro) {
-      db.exec("ROLLBACK");
-      throw erro;
-    }
-  }
-  fs.unlinkSync(arquivoLegado);
-  console.log("Dados antigos importados para o banco SQLite.");
-}
 
 app.use(cors());
 app.use(express.json({ limit: "2mb" }));
@@ -107,7 +70,6 @@ function valores(dados) {
     dados.redes, dados.observacoes, dados.imagem];
 }
 
-app.get("/health", (req, res) => res.json({ ok: true }));
 app.get("/contatos", (req, res) => res.json(buscarTodos.all()));
 
 app.get("/contatos/:id", (req, res) => {
